@@ -17,7 +17,7 @@ D = m * Z;
 GAP = 0.25;
 e = 2 - GAP;
 
-SERVO_H = 12.2;
+SERVO_H = 11.6;
 
 $fs=0.5;
 $fa=2.5;
@@ -116,7 +116,7 @@ module body_cover()
 module gear()
 {
     assign(shiftX=-9.08-2.5*PI*m)
-    translate([shiftX, -5, CENTER_H/2+PLATE_H+l/2]) {
+    translate([shiftX, -5, CENTER_H/2+PLATE_H+SERVO_H/2]) {
         rotate([-90, 360/(Z/1), 0]) {
             difference() {
                 external_gear_spur(m, Z, h=5, center=false);
@@ -125,6 +125,13 @@ module gear()
             }
         }
     }
+}
+
+
+module vitamins(alpha)
+{
+    assign(shiftX=-16)  // -9.08-2.5*PI*m
+    translate([shiftX, -14.5, CENTER_H/2+PLATE_H+SERVO_H/2]) color("gray", alpha) rotate([-90, 0, 0]) GS_9025MG();
 }
 
 
@@ -140,8 +147,7 @@ module half(alpha=1)
     
     color("yellow", alpha)      gear();
     
-    assign(shiftX=-16)  // -9.08-2.5*PI*m
-    translate([shiftX, -14.5, CENTER_H/2+PLATE_H+l/2]) color("gray", alpha) rotate([-90, 0, 0]) GS_9025MG();
+    vitamins(alpha);
 }
 
 
