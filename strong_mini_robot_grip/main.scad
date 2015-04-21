@@ -1,3 +1,9 @@
+// Strong Mini Robot Grip
+//
+// Draft version
+//
+// TODO: add option to move both fingers at the same time with only 1 servo (use gears)
+
 include <../lib/gear_spur.scad>
 include <../lib/servos/Goteck/GS-9025MG.scad>
 
@@ -157,6 +163,3 @@ display();
 //finger_cover();
 //body_base();
 //body_cover();
-
-
-// TODO: add option to move both fingers at the same time with only 1 servo (use gears)
