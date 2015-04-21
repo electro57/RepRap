@@ -4,8 +4,8 @@
 //
 // TODO: add option to move both fingers at the same time with only 1 servo (use gears)
 
-include <../lib/gear_spur.scad>
-include <../lib/servos/Goteck/GS-9025MG.scad>
+use <../lib/gear_spur.scad>
+use <../lib/servos/Goteck/GS_9025MG.scad>
 
 CENTER_H = 5;
 PLATE_H = 2.5;
@@ -17,7 +17,7 @@ D = m * Z;
 GAP = 0.25;
 e = 2 - GAP;
 
-SERVO_H = 11.6;
+SERVO_H = 12.2;
 
 $fs=0.5;
 $fa=2.5;
@@ -106,7 +106,7 @@ module body_cover()
         }
     }
     translate([0, 0, CENTER_H/2+PLATE_H]) {
-        linear_extrude(height=l/2+3) {
+        linear_extrude(height=SERVO_H/2+3) {
             import(file="main.dxf", layer="body_c");
         }
     }

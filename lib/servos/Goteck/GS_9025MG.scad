@@ -3,7 +3,7 @@
 L = 23.2;
 l = 12.2;
 H = 23.7;
-PLATE_L = 32
+PLATE_L = 32;
 PLATE_H = 2.0;
 PLATE_H_POS = 19.3;
 TOP_CYLINDER_H = 5;
@@ -25,30 +25,26 @@ module GS_9025MG()
     translate([-l/2, -l/2, -PLATE_H_POS]) {
         difference() {
             union() {
-                color("LightBlue", 0.5) {
                     
-                    // main part
-                    cube([L, l, H]);
-                    
-                    // support
-                    translate([-(PLATE_L-L) / 2, 0, PLATE_H_POS]) {
-                        cube([PLATE_L, l, PLATE_H]);
-                    }
-                    
-                    // top big cylinder
-                    translate([l/2, l/2, H]) {
-                        cylinder(d=l, h=TOP_CYLINDER_H);
-                    }
-                    
-                    // top small cylinder
-                    translate([l, l/2, H]) { 
-                        cylinder(d=SMALL_TOP_CYLINDER_D, h=TOP_CYLINDER_H);
-                    }
+                // main part
+                cube([L, l, H]);
+                
+                // support
+                translate([-(PLATE_L-L) / 2, 0, PLATE_H_POS]) {
+                    cube([PLATE_L, l, PLATE_H]);
+                }
+                
+                // top big cylinder
+                translate([l/2, l/2, H]) {
+                    cylinder(d=l, h=TOP_CYLINDER_H);
+                }
+                
+                // top small cylinder
+                translate([l, l/2, H]) { 
+                    cylinder(d=SMALL_TOP_CYLINDER_D, h=TOP_CYLINDER_H);
                 }
                 translate([l/2, l/2, H+TOP_CYLINDER_H]) {
-                    color("white") {
-                        cylinder(d=AXIS_D, h=AXIS_H);
-                    }
+                    cylinder(d=AXIS_D, h=AXIS_H);
                 }
             }
             translate([-(PLATE_L-L)/2+SCREW_HOLE_CENTER, l/2, PLATE_H_POS]) {
@@ -68,4 +64,4 @@ module GS_9025MG()
 }
 
 
-//GS_9025MG();
+GS_9025MG();
