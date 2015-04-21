@@ -1,5 +1,5 @@
 include <../lib/gear_spur.scad>
-include <../lib/Goteck_GS-9025MG.scad>
+include <../lib/servos/Goteck/GS-9025MG.scad>
 
 CENTER_H = 5;
 PLATE_H = 2.5;
@@ -20,7 +20,7 @@ $fa=2.5;
 module lever_1()
 {
     linear_extrude(height=CENTER_H, center=true) {
-        import(file="my_grip.dxf", layer="lever_1");
+        import(file="main.dxf", layer="lever_1");
     }
 }
 
@@ -28,7 +28,7 @@ module lever_1()
 module lever_2()
 {
     linear_extrude(height=CENTER_H, center=true) {
-        import(file="my_grip.dxf", layer="lever_2");
+        import(file="main.dxf", layer="lever_2");
     }
 }
 
@@ -37,7 +37,7 @@ module lever_1b()
 {
     translate([0, 0, -PLATE_H/2-PLATE_H*2])
     linear_extrude(height=PLATE_H, center=true) {
-        import(file="my_grip.dxf", layer="lever_1");
+        import(file="main.dxf", layer="lever_1");
     }
 }
 
@@ -46,7 +46,7 @@ module lever_2b()
 {
     translate([0, 0, -PLATE_H/2-PLATE_H*2])
     linear_extrude(height=PLATE_H, center=true) {
-        import(file="my_grip.dxf", layer="lever_2");
+        import(file="main.dxf", layer="lever_2");
     }
 }
 
@@ -54,11 +54,11 @@ module lever_2b()
 module finger_base()
 {
     linear_extrude(height=CENTER_H, center=true) {
-        import(file="my_grip.dxf", layer="finger_b");
+        import(file="main.dxf", layer="finger_b");
     }
     translate([0, 0, -CENTER_H/2-PLATE_H]) {
         linear_extrude(height=PLATE_H) {
-            import(file="my_grip.dxf", layer="finger_a");
+            import(file="main.dxf", layer="finger_a");
         }
     }
 }
@@ -68,7 +68,7 @@ module finger_cover()
 {
     translate([0, 0, CENTER_H/2]) {
         linear_extrude(height=PLATE_H) {
-            import(file="my_grip.dxf", layer="finger_a");
+            import(file="main.dxf", layer="finger_a");
         }
         translate([-9.08, 0, 1.25*m+e]) {
             rotate([90, 0, 0]) {
@@ -82,11 +82,11 @@ module finger_cover()
 module body_base()
 {
     linear_extrude(height=CENTER_H, center=true) {
-        import(file="my_grip.dxf", layer="body_b");
+        import(file="main.dxf", layer="body_b");
     }
     translate([0, 0, -CENTER_H/2-PLATE_H]) {
         linear_extrude(height=PLATE_H) {
-            import(file="my_grip.dxf", layer="body_a");
+            import(file="main.dxf", layer="body_a");
         }
     }
 }
@@ -96,12 +96,12 @@ module body_cover()
 {
     translate([0, 0, CENTER_H/2]) {
         linear_extrude(height=PLATE_H) {
-            import(file="my_grip.dxf", layer="body_a");
+            import(file="main.dxf", layer="body_a");
         }
     }
     translate([0, 0, CENTER_H/2+PLATE_H]) {
         linear_extrude(height=l/2+3) {
-            import(file="my_grip.dxf", layer="body_c");
+            import(file="main.dxf", layer="body_c");
         }
     }
 }
