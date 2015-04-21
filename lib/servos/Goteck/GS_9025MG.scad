@@ -1,16 +1,16 @@
 // Goteck GS-9025MG servo mockup
 
-L = 22.8;
-l = 11.6;
-H = 23.5;
-PLATE_L = 31.5;
+L = 23.2;
+l = 12.2;
+H = 23.7;
+PLATE_L = 32
 PLATE_H = 2.0;
-PLATE_H_POS = 19.5;
+PLATE_H_POS = 19.3;
 TOP_CYLINDER_H = 5;
 SMALL_TOP_CYLINDER_D = 6.0;
 
-AXIS_H = 3.2;
-AXIS_D = 5;
+AXIS_H = 3.4;
+AXIS_D = 4.8;
 
 SCREW_HOLE_CENTER = 2;
 SCREW_HOLE_D = 2.5;
