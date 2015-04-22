@@ -1,3 +1,5 @@
+// Geared Nema14 Extruder
+
 use <../lib/rounded_cube.scad>
 use <../lib/bearing.scad>
 
@@ -336,7 +338,7 @@ module pusher_bearing()
 {
     difference() {
         color("lightblue") {
-            bearing(pos=[-4/2, -10/2-2-10/2, 0], angle=[0, 90, 0], model=623);
+            bearing(pos=[-4/2, -10/2-2-10/2, 0], rot=[0, 90, 0], model=623);
         }
 
         if (CUT_VITAMINS && CUT_PUSHER_BEARING) {

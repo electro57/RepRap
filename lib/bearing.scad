@@ -2,101 +2,93 @@
  * Bearing model.
  *
  * Originally by Hans Häggström, 2010.
+ * Modified by Frédéric Mantegazza (2015)
+ *
  * Dual licenced under Creative Commons Attribution-Share Alike 3.0 and LGPL2 or later
  */
 
-include <units.scad>
-include <materials.scad>
+EPSILON = 0.01;
 
-// Example, uncomment to view
-//test_bearing();
-//test_bearing_hole();
-
-module test_bearing(){
-    bearing();
-    bearing(pos=[5*cm, 0,0], angle=[90,0,0]);
-    bearing(pos=[-2.5*cm, 0,0], model=688);
-}
-
-module test_bearing_hole(){
-    difference(){
-      translate([0, 0, 3.5]) cube(size=[30, 30, 7-10*epsilon], center=true);
-      bearing(outline=true);
-    }
-}
 
 BEARING_INNER_DIAMETER = 0;
 BEARING_OUTER_DIAMETER = 1;
 BEARING_WIDTH = 2;
 
-// Common bearing names
-SkateBearing = 608;
 
 // Bearing dimensions
 // model == XXX ? [inner dia, outer dia, width]:
 function bearingDimensions(model) =
-  model ==  623 ? [ 3*mm, 10*mm, 4*mm]:
-  model ==  624 ? [ 4*mm, 13*mm, 5*mm]:
-  model ==  684 ? [ 5*mm, 11*mm, 5*mm]:
-  model ==  695 ? [ 5*mm, 13*mm, 4*mm]:
-  model ==  605 ? [ 5*mm, 14*mm, 5*mm]:
-  model ==  625 ? [ 5*mm, 16*mm, 5*mm]:
-  model ==  627 ? [ 7*mm, 22*mm, 7*mm]:
-  model ==  688 ? [ 8*mm, 16*mm, 4*mm]:
-  model ==  698 ? [ 8*mm, 19*mm, 6*mm]:
-  model ==  608 ? [ 8*mm, 22*mm, 7*mm]:
-  model == 6700 ? [10*mm, 16*mm, 4*mm]:
-  model == 6800 ? [10*mm, 19*mm, 5*mm]:
-  model == 6900 ? [10*mm, 22*mm, 6*mm]:
-  model == 6701 ? [12*mm, 18*mm, 4*mm]:
-  model == 6801 ? [12*mm, 21*mm, 5*mm]:
-  model == 6901 ? [12*mm, 24*mm, 6*mm]:
-  model == 6702 ? [15*mm, 21*mm, 4*mm]:
-  model == 6703 ? [17*mm, 23*mm, 4*mm]:
-  [8*mm, 22*mm, 7*mm]; // this is the default
+    model ==  623 ? [ 3, 10, 4]:
+    model ==  624 ? [ 4, 13, 5]:
+    model ==  684 ? [ 5, 11, 5]:  // or [4, 9, 4]: ???
+	model == "MR105" ? [5, 10, 3]:
+	model == "MR115" ? [5, 11, 4]:
+    model ==  695 ? [ 5, 13, 4]:
+    model ==  605 ? [ 5, 14, 5]:
+    model ==  625 ? [ 5, 16, 5]:
+	model ==  106 ? [ 6, 10, 3]:
+	model ==  126 ? [ 6, 12, 4]:
+	model ==  696 ? [6, 15, 5]:
+	model ==  626 ? [6, 19, 6]:
+    model ==  627 ? [ 7, 22, 7]:
+    model ==  688 ? [ 8, 16, 4]:
+    model ==  698 ? [ 8, 19, 6]:
+    model ==  608 ? [ 8, 22, 7]:
+    model == 6700 ? [10, 16, 4]:
+    model == 6800 ? [10, 19, 5]:
+    model == 6900 ? [10, 22, 6]:
+    model == 6701 ? [12, 18, 4]:
+    model == 6801 ? [12, 21, 5]:
+    model == 6901 ? [12, 24, 6]:
+    model == 6702 ? [15, 21, 4]:
+    model == 6703 ? [17, 23, 4]:
+    [8, 22, 7]; // this is the default
 
 
-function bearingWidth(model) = bearingDimensions(model)[BEARING_WIDTH];
-function bearingInnerDiameter(model) = bearingDimensions(model)[BEARING_INNER_DIAMETER];
-function bearingOuterDiameter(model) = bearingDimensions(model)[BEARING_OUTER_DIAMETER];
+function bearing_d(model) = bearingDimensions(model)[BEARING_INNER_DIAMETER];
+function bearing_D(model) = bearingDimensions(model)[BEARING_OUTER_DIAMETER];
+function bearing_w(model) = bearingDimensions(model)[BEARING_WIDTH];
 
-module bearing(pos=[0,0,0], angle=[0,0,0], model=SkateBearing, outline=false,
-                material=Steel, sideMaterial=Brass) {
-  // Common bearing names
-  model =
-    model == "Skate" ? 608 :
-    model;
 
-  w = bearingWidth(model);
-  innerD = outline==false ? bearingInnerDiameter(model) : 0;
-  outerD = bearingOuterDiameter(model);
+module _bearing(d, D, w, pos, rot) {
 
-  innerRim = innerD + (outerD - innerD) * 0.2;
-  outerRim = outerD - (outerD - innerD) * 0.2;
-  midSink = w * 0.1;
+	module ring(D, d, w) {
+		difference() {
+			cylinder(r=D/2, h=w, $fs=0.1);
+			translate([0,0,-EPSILON]) {
+				cylinder(r=d/2, h=w+2*EPSILON, $fs=0.1);
+			}
+		}
+	}
 
-  translate(pos) rotate(angle) union() {
-      difference() {
-        // Basic ring
-        Ring([0,0,0], outerD, innerD, w, material, material);
+	inner_rim = d + (D - d) * 0.25;
+	outer_rim = D - (D - d) * 0.25;
+	mid_sink = w * 0.1;
 
-        if (outline==false) {
-          // Side shields
-          Ring([0,0,-epsilon], outerRim, innerRim, epsilon+midSink, sideMaterial, material);
-          Ring([0,0,w-midSink], outerRim, innerRim, epsilon+midSink, sideMaterial, material);
-        }
-      }
-  }
-
-  module Ring(pos, od, id, h, material, holeMaterial) {
-      translate(pos)
+    translate(pos) rotate(rot) {
         difference() {
-          cylinder(r=od/2, h=h,  $fs = 0.01);
-            translate([0,0,-10*epsilon])
-              cylinder(r=id/2, h=h+20*epsilon,  $fs = 0.01);
+            ring(D, d, w);
+            translate([0, 0, -EPSILON]) {
+                ring(outer_rim, inner_rim, mid_sink+EPSILON);
+            }
+            translate([0, 0, w-mid_sink]) {
+                ring(outer_rim, inner_rim, mid_sink+EPSILON);
+            }
         }
     }
-
 }
+
+
+module bearing(model, pos=[0,0,0], rot=[0,0,0]) {
+	d = bearing_d(model);
+	D = bearing_D(model);
+	w = bearing_w(model);
+	color([0.5, 0.5, 0.5]) {
+		_bearing(d, D, w, pos, rot);
+	}
+}
+
+
+bearing(model=608, pos=[10, 10, 10], rot=[0, 90, 45]);
 
 
