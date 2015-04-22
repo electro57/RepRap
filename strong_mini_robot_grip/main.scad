@@ -7,6 +7,9 @@
 use <../lib/gear_spur.scad>
 use <../lib/servos/Goteck/GS_9025MG.scad>
 
+
+EPSILON = 0.01;
+
 CENTER_H = 5;
 PLATE_H = 2.5;
 
@@ -89,15 +92,10 @@ module finger_cover()
 }
 
 
-module body_base()
+module body_middle()
 {
     linear_extrude(height=CENTER_H, center=true) {
         import(file="main.dxf", layer="body_b");
-    }
-    translate([0, 0, -CENTER_H/2-PLATE_H]) {
-        linear_extrude(height=PLATE_H) {
-            import(file="main.dxf", layer="body_a");
-        }
     }
 }
 
@@ -109,14 +107,25 @@ module body_cover()
             import(file="main.dxf", layer="body_a");
         }
     }
-    translate([0, 0, CENTER_H/2+PLATE_H]) {
-        intersection() {
-            linear_extrude(height=SERVO_H, convexity=2) {
-                import(file="main.dxf", layer="body_c");
+    
+    difference() {
+        translate([0, 0, CENTER_H/2+PLATE_H]) {
+            intersection() {
+                linear_extrude(height=SERVO_H, convexity=2) {
+                    import(file="main.dxf", layer="body_c");
+                }
+                rotate([0, -90, 0]) {
+                    linear_extrude(height=60, center=true) {
+                        import(file="main.dxf", layer="body_c_profile");
+                    }
+                }
             }
-            rotate([0, -90, 0]) {
-                linear_extrude(height=60, center=true) {
-                    import(file="main.dxf", layer="body_c_profile");
+        }
+        
+        for (x=[-14, 14]) {
+            translate([x-10.5, -15+EPSILON, CENTER_H/2+PLATE_H+SERVO_H/2+0.5]) {
+                rotate([90, 0, 0]) {
+                    cylinder(d=1, h=10, center=false);
                 }
             }
         }
@@ -124,11 +133,16 @@ module body_cover()
 }
 
 
-module body_rear()
+module body()
 {
+    body_middle();
+    body_cover();
+    rotate([0, 180, 0]) body_cover();
+    
+    // Rear
     translate([0, -35, 0]) {
         rotate([90, 0, 0]) {
-            cylinder(d=BODY_REAR_D, h=BODY_REAR_H, center=false);
+            *cylinder(d=BODY_REAR_D, h=BODY_REAR_H, center=false);
         }
     }
 }
@@ -177,9 +191,7 @@ module display()
 {
     half();
     rotate([0, 180, 0])     half(0.5);
-    color("orange")         body_base();
-    color("orange")     body_cover();
-    color("salmon")         body_rear();
+    color("orange")         body();
 }
 
 
