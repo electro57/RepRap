@@ -23,17 +23,17 @@ $fa=2.5;
 // teeth_to_hide        number of teeth to delete to make this only a fraction of a circle
 // pressure_angle       controls how straight or bulged the tooth sides are
 //
-module external_gear_spur(m, Z, h, center=true, twist=0, teeth_to_hide=0, pressure_angle=20)
+module external_gear_spur(m, Z, h, center=true, twist=0, teeth_to_hide=0, pressure_angle=25)
 {
     external_gear_spur_(m, Z, h, center, twist, teeth_to_hide, pressure_angle);
 }
 
-module internal_gear_spur(m, Z, h, D, center=true, twist=0, teeth_to_hide=0, pressure_angle=20)
+module internal_gear_spur(m, Z, h, D, center=true, twist=0, teeth_to_hide=0, pressure_angle=25)
 {
     internal_gear_spur_(m, Z, h, D, center, twist, teeth_to_hide, pressure_angle);
 }
 
-module flat_gear_spur(m, Z, h, e, center=true, twist=0, pressure_angle=20)
+module flat_gear_spur(m, Z, h, e, center=true, twist=0, pressure_angle=25)
 {
     flat_gear_spur_(m, Z, h, e, center, twist, pressure_angle);
 }
@@ -92,7 +92,7 @@ module example_4()
 //example_1();
 //example_2();
 //example_3();
-//example_4();
+example_4();
 
 
 /////////////////////////////////////////// Lib ///////////////////////////////////////////
