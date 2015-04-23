@@ -65,3 +65,4 @@ module GS_9025MG()
 
 
 GS_9025MG();
+//projection(cut=false) rotate([0, -90, 0]) GS_9025MG();
