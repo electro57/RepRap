@@ -166,10 +166,11 @@ module half(alpha=1)
 
 module display()
 {
-    color("lightblue", alpha)   lever_top();
-    color("lightblue", alpha)   lever_bottom();
-    color("lightgreen", alpha)  finger();
+    color("lightblue")   lever_top();
+    color("lightblue")   lever_bottom();
+    color("lightgreen")  finger();
 
+    assign(alpha=0.5)
     *rotate([0, 180, 0]) {
         color("blue", alpha)   lever_top();
         color("blue", alpha)   lever_bottom();
