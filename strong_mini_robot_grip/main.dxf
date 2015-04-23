@@ -27,17 +27,17 @@ $INSBASE
 9
 $EXTMIN
 10
--27
+-32.0000046359
 20
--35
+-42
 30
 0
 9
 $EXTMAX
 10
-27
+32.0000046359
 20
--6
+40
 30
 0
 9
@@ -229,9 +229,9 @@ AcDbViewportTableRecord
 21
 1
 12
-35.61937046
+38.7167070218
 22
-8.29927360775
+20.5
 13
 0
 23
@@ -257,7 +257,7 @@ AcDbViewportTableRecord
 37
 0
 40
-67.188377724
+83.985472155
 41
 1.84397163121
 42
@@ -1121,7 +1121,7 @@ AcDbLayerTableRecord
 2
 0
 70
-1
+0
 62
 7
 6
@@ -1143,7 +1143,7 @@ AcDbLayerTableRecord
 2
 body
 70
-5
+4
 62
 6
 6
@@ -1187,7 +1187,7 @@ AcDbLayerTableRecord
 2
 body_b
 70
-1
+0
 62
 7
 6
@@ -1209,7 +1209,7 @@ AcDbLayerTableRecord
 2
 body_c
 70
-1
+0
 62
 7
 6
@@ -1231,7 +1231,7 @@ AcDbLayerTableRecord
 2
 body_c_profile
 70
-1
+0
 62
 7
 6
@@ -1253,7 +1253,7 @@ AcDbLayerTableRecord
 2
 build
 70
-1
+0
 62
 2
 6
@@ -1275,7 +1275,7 @@ AcDbLayerTableRecord
 2
 finger_a
 70
-1
+0
 62
 7
 6
@@ -1297,7 +1297,7 @@ AcDbLayerTableRecord
 2
 finger_b
 70
-1
+0
 62
 7
 6
@@ -1319,7 +1319,7 @@ AcDbLayerTableRecord
 2
 finger_close
 70
-5
+4
 62
 3
 6
@@ -1341,7 +1341,7 @@ AcDbLayerTableRecord
 2
 finger_open
 70
-5
+4
 62
 96
 420
@@ -1365,7 +1365,7 @@ AcDbLayerTableRecord
 2
 lever_1
 70
-1
+0
 62
 7
 6
@@ -1387,7 +1387,7 @@ AcDbLayerTableRecord
 2
 lever_1_close
 70
-5
+4
 62
 4
 6
@@ -1409,7 +1409,7 @@ AcDbLayerTableRecord
 2
 lever_1_open
 70
-5
+4
 62
 5
 6
@@ -1431,7 +1431,7 @@ AcDbLayerTableRecord
 2
 lever_2
 70
-1
+0
 62
 7
 6
@@ -1453,7 +1453,7 @@ AcDbLayerTableRecord
 2
 lever_2_close
 70
-5
+4
 62
 4
 6
@@ -1475,7 +1475,7 @@ AcDbLayerTableRecord
 2
 lever_2_open
 70
-5
+4
 62
 5
 6
