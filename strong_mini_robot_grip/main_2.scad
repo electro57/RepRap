@@ -15,9 +15,9 @@ DXF_FILE = "./main_2.dxf";
 SERVO_H = 12.5;  // add some place (~0.3mm)
 
 Z = 10;
-m = 0.95;
+m = 1;
 D = m * Z;
-GAP = 0.25;
+GAP = -0.25;
 
 CENTER_H = 12.5;
 PLATE_H = 2;
@@ -57,12 +57,12 @@ module lever_top()
 module finger_bottom()
 {
     translate([0, 0, -CENTER_H/2-PLATE_H]) {
-        linear_extrude(height=PLATE_H) {
+        linear_extrude(height=PLATE_H-GAP) {
             import(file=DXF_FILE, layer="finger_1");
         }
     }
-    translate([0, 0, -CENTER_H/2]) {
-        linear_extrude(height=2.25*m) {
+    translate([0, 0, -CENTER_H/2-GAP]) {
+        linear_extrude(height=2.25*m+GAP) {
             import(file=DXF_FILE, layer="finger_2");
         }
     }
@@ -129,6 +129,13 @@ module body()
             difference() {
                 cylinder(d=BODY_REAR_D, h=BODY_REAR_H, center=true);
                 cube([BODY_REAR_D+2*EPSILON, SERVO_H+2*EPSILON, BODY_REAR_H+2*EPSILON], center=true);
+                for (angle=[-135, -45, 45, 135]) {
+                    rotate([0, 0, angle]) {
+                        translate([BODY_REAR_D/2-2, 0, 0]) {
+                            cylinder(d=1.5, h=BODY_REAR_H+2*EPSILON, center=true);
+                        }
+                    }
+                }
             }
         }
     }
@@ -143,7 +150,7 @@ module gear()
             difference() {
                 external_gear_spur(m, Z, h=5, center=false);
                 cylinder(d=2, h=5, center=false);
-                cylinder(d=5, h=3.5, center=false);
+                cylinder(d=5, h=3.25, center=false);
             }
         }
     }
