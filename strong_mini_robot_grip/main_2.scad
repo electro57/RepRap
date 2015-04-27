@@ -13,6 +13,7 @@ EPSILON = 0.01;
 DXF_FILE = "./main_2.dxf";
 
 SERVO_H = 12.5;  // add some place (~0.3mm)
+SERVO_STREAKS_SCALE = 1.;
 
 Z = 10;
 m = 1;
@@ -144,13 +145,18 @@ module body()
 
 module gear()
 {
-    assign(shiftX=0+0*PI*m)
-    translate([shiftX, -5.25, 0]) {
+    translate([0, -5.25, 0]) {
         rotate([-90, 360/(Z/1), 0]) {
             difference() {
                 external_gear_spur(m, Z, h=5, center=false);
                 cylinder(d=2, h=5, center=false);
-                cylinder(d=5, h=3.25, center=false);
+                *cylinder(d=4.35, h=3.25, center=false);
+                *cylinder(d=4.9, h=0.1, center=false);
+                scale(SERVO_STREAKS_SCALE) {
+                    linear_extrude(height=3.25, convexity=3) {
+                        import(file=DXF_FILE, layer="gear_2", center=false);
+                    }
+                }
             }
         }
     }
