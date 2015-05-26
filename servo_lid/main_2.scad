@@ -4,8 +4,13 @@ use <../lib/bearing.scad>
 SERVO_L = 41.0;
 SERVO_W = 19.5;
 
+<<<<<<< HEAD
 CHAMFER_W = 1;
 CHAMFER_H = 2.5;
+=======
+CHAMFER_W = 1.25;
+CHAMFER_H = 2.75;
+>>>>>>> 1571466dd1300211adfef3667de255ae92e3c46b
 
 BOTTOM_T = 2.0;
 
