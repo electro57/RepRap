@@ -18,18 +18,20 @@ BEARING_WIDTH = 2;
 // Bearing dimensions
 // model == XXX ? [inner dia, outer dia, width]:
 function bearingDimensions(model) =
+    model == 683 ? [3, 7, 2]:
+    model == "MR83" ? [3, 8, 3]:
     model ==  623 ? [ 3, 10, 4]:
     model ==  624 ? [ 4, 13, 5]:
     model ==  684 ? [ 5, 11, 5]:  // or [4, 9, 4]: ???
-	model == "MR105" ? [5, 10, 3]:
-	model == "MR115" ? [5, 11, 4]:
+    model == "MR105" ? [5, 10, 3]:
+    model == "MR115" ? [5, 11, 4]:
     model ==  695 ? [ 5, 13, 4]:
     model ==  605 ? [ 5, 14, 5]:
     model ==  625 ? [ 5, 16, 5]:
-	model ==  106 ? [ 6, 10, 3]:
-	model ==  126 ? [ 6, 12, 4]:
-	model ==  696 ? [6, 15, 5]:
-	model ==  626 ? [6, 19, 6]:
+    model ==  106 ? [ 6, 10, 3]:
+    model ==  126 ? [ 6, 12, 4]:
+    model ==  696 ? [6, 15, 5]:
+    model ==  626 ? [6, 19, 6]:
     model ==  627 ? [ 7, 22, 7]:
     model ==  688 ? [ 8, 16, 4]:
     model ==  698 ? [ 8, 19, 6]:
@@ -52,18 +54,18 @@ function bearing_w(model) = bearingDimensions(model)[BEARING_WIDTH];
 
 module _bearing(d, D, w, pos, rot) {
 
-	module ring(D, d, w) {
-		difference() {
-			cylinder(r=D/2, h=w, $fs=0.1);
-			translate([0,0,-EPSILON]) {
-				cylinder(r=d/2, h=w+2*EPSILON, $fs=0.1);
-			}
-		}
-	}
+    module ring(D, d, w) {
+        difference() {
+            cylinder(r=D/2, h=w, $fs=0.1);
+            translate([0,0,-EPSILON]) {
+                cylinder(r=d/2, h=w+2*EPSILON, $fs=0.1);
+            }
+        }
+    }
 
-	inner_rim = d + (D - d) * 0.25;
-	outer_rim = D - (D - d) * 0.25;
-	mid_sink = w * 0.1;
+    inner_rim = d + (D - d) * 0.25;
+    outer_rim = D - (D - d) * 0.25;
+    mid_sink = w * 0.1;
 
     translate(pos) rotate(rot) {
         difference() {
@@ -80,15 +82,13 @@ module _bearing(d, D, w, pos, rot) {
 
 
 module bearing(model, pos=[0,0,0], rot=[0,0,0]) {
-	d = bearing_d(model);
-	D = bearing_D(model);
-	w = bearing_w(model);
-	color([0.5, 0.5, 0.5]) {
-		_bearing(d, D, w, pos, rot);
-	}
+    d = bearing_d(model);
+    D = bearing_D(model);
+    w = bearing_w(model);
+//    color([0.5, 0.5, 0.5]) {
+        _bearing(d, D, w, pos, rot);
+//    }
 }
 
 
 bearing(model=608, pos=[10, 10, 10], rot=[0, 90, 45]);
-
-
