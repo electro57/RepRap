@@ -91,7 +91,7 @@ module servo_test()
 }
 
 
-servo_bracket_1_top();
-//servo_bracket_1_bottom();
-//servo_bracket_1_middle();
-//servo_test();
+mirror([0, 0, 1]) servo_bracket_1_top();
+//mirror([0, 0, 1]) servo_bracket_1_bottom();
+//mirror([0, 0, 1]) servo_bracket_1_middle();
+//mirror([0, 0, 1]) servo_test();
