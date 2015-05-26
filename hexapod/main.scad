@@ -1,4 +1,11 @@
 
+FILE = "main_long.dxf";
+
+SERVO_SHAFT_C0ORD_X_1 = 0;
+SERVO_SHAFT_C0ORD_Y_1 = 0;
+SERVO_SHAFT_C0ORD_X_2 = -20.6;
+SERVO_SHAFT_C0ORD_Y_2 = 67.7;
+
 $fs=0.5;
 $fa=2.5;
 
@@ -20,11 +27,29 @@ module servo_bracket_1_top()
 {
     difference() {
         linear_extrude(height=5, convexity=3) {
-            import(file="main.dxf", layer="0");
+            import(file=FILE, layer="0");
         }
-        cylinder(d=3, h=5);
-        servo_shaft(h=4);
-        cylinder(d=13.5, h=1);
+        translate([SERVO_SHAFT_C0ORD_X_1, SERVO_SHAFT_C0ORD_Y_1, 0]) {
+            cylinder(d=13.5, h=1);
+            translate([0, 0, 1]) {
+                servo_shaft(h=3);
+                translate([0, 0, 3]) {
+                    cylinder(d=3, h=1);
+                }
+            }
+        }
+        translate([SERVO_SHAFT_C0ORD_X_2, SERVO_SHAFT_C0ORD_Y_2, 0]) {
+            cylinder(d=13.5, h=1);
+            translate([0, 0, 1]) {
+                servo_shaft(h=3);
+                translate([0, 0, 3]) {
+                    cylinder(d=3, h=1);
+                }
+            }
+        }
+        linear_extrude(height=1.5, convexity=3) {
+            import(file=FILE, layer="1");
+        }
     }
 }
 
@@ -62,12 +87,11 @@ module servo_test()
 {
     difference() {
         cylinder(d=10, h=4);
-        servo_shaft();
     }
 }
 
 
-//servo_bracket_1_top();
+servo_bracket_1_top();
 //servo_bracket_1_bottom();
-servo_bracket_1_middle();
+//servo_bracket_1_middle();
 //servo_test();
