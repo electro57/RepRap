@@ -76,13 +76,6 @@ module lid()
             }
         }
         
-        // screw bearing hole
-        translate([SERVO_L/2-SHAFT_POS_X, 0, -BOTTOM_T-0.05]) {
-            difference() {
-                *cylinder(d1=3, d2=6, h=BOTTOM_T+0.1, center=false);
-            }
-        }
-        
         // internal rivet hole
         translate([SERVO_L/2-SHAFT_POS_X, 0, -BOTTOM_T-0.05]) {
             difference() {

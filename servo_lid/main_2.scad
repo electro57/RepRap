@@ -88,7 +88,8 @@ module lid()
 
 module vitamins()
 {
-    translate([SERVO_L/2-SHAFT_POS_X, 0, 0]) {
+    translate([SERVO_L/2-SHAFT_POS_X, 0, -BOTTOM_T-bearing_w(623)-0.5]) {
+        bearing(623);
     }
 }
 
