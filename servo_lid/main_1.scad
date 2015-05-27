@@ -94,7 +94,7 @@ module lid()
 module vitamins()
 {
     translate([SERVO_L/2-SHAFT_POS_X, 0, 0]) {
-        mirror([0, 0, 1]) 
+        mirror([0, 0, 1]) {
             difference() {
                 union() {
 //                    cylinder(d=9, h=1, center=false);
