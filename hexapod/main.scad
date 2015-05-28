@@ -1,4 +1,4 @@
-use <../lib/servos/TowerPro/MG996.scad>
+include <../lib/servos/TowerPro/MG996.scad>
 
 FILE = "main_long.dxf";
 
@@ -103,12 +103,40 @@ module servo_shaft_test()
 }
 
 
+module servo_bracket_2()
+{
+    translate([MG996_SHAFT_POS_X, -MG996_W/2-5/2, -18/2]) {
+        cube([MG996_L+0.5+2*5, 5, 18], center=true);
+    }
+    translate([-MG996_SHAFT_POS_X-0.5-5/2, 0, -18/2]) {
+        cube([5, MG996_W, 18], center=true);
+    }
+    translate([MG996_L-MG996_SHAFT_POS_X+5/2, 0, -18/2]) {
+        cube([5, MG996_W, 18], center=true);
+    }
+}
+
+
+module servo_bracket_3()
+{
+    translate([MG996_SHAFT_POS_X, -MG996_W/2-5/2, -18/2]) {
+        cube([MG996_L+0.5+2*5, 5, 18], center=true);
+    }
+    translate([-MG996_SHAFT_POS_X-0.5-5/2, 0, -18/2]) {
+        cube([5, MG996_W, 18], center=true);
+    }
+    translate([MG996_L-MG996_SHAFT_POS_X+5/2, 0, -18/2]) {
+        cube([5, MG996_W, 18], center=true);
+    }
+}
+
 module vitamins()
 {
     translate([0, 0, 11.5+1]) {
         rotate([0, 0, 90-ANGLE_1]) {
             mirror([0, 0, 1]) {
                 MG996();
+                MG996_lid_vitamins();
             }
         }
     }
@@ -116,25 +144,17 @@ module vitamins()
         rotate([0, 0, -90+ANGLE_2]) {
             mirror([0, 0, 1]) {
                 MG996();
-            }
-        }
-    }
-
-    translate([0, 0, 11.5+1]) {
-        rotate([0, 0, -90+ANGLE_2]) {
-            mirror([0, 0, 1]) {
                 MG996_lid_vitamins();
             }
         }
     }
 
-    translate([SERVO_SHAFT_C0ORD_X_2, SERVO_SHAFT_C0ORD_Y_2, 11.5+1]) {
-        rotate([0, 0, 90-ANGLE_1]) {
-            mirror([0, 0, 1]) {
-                MG996_lid_vitamins();
-            }
+    rotate([0, 90, 90-ANGLE_1]) {
+        translate([-(41+1)/2, -MG996_W-5, 15]) {
+            MG996();
         }
     }
+
 }
 
 
@@ -144,11 +164,24 @@ module display()
     mirror([0, 0, 1]) {
         servo_bracket_1_bottom();
     }
-    
     servo_bracket_1_link();
-    
     translate([0, 0, 41+1]) {
         servo_bracket_1_top();
+    }
+    
+    translate([0, 0, 11.5+1]) {
+        rotate([0, 0, 90-ANGLE_1]) {
+            mirror([0, 0, 1]) {
+                color("lightblue") servo_bracket_2();
+            }
+        }
+    }
+    translate([SERVO_SHAFT_C0ORD_X_2, SERVO_SHAFT_C0ORD_Y_2, 11.5+1]) {
+        rotate([0, 0, -90+ANGLE_2]) {
+            mirror([0, 0, 1]) {
+                color("lightgreen") servo_bracket_3();
+            }
+        }
     }
     
     translate([0, 0, 11.5+1]) {
@@ -171,5 +204,9 @@ module display()
 
 
 display();
+
+//color("gray") MG996();
+//servo_bracket_2();
+
 
 //mirror([0, 0, 1]) servo_shaft_test();
