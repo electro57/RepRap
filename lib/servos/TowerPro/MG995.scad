@@ -2,14 +2,16 @@
 
 use <../../rounded_cube.scad>
 
-SERVO_L = 41.0;
+SERVO_L = 40.5;
 SERVO_W = 19.5;
-SERVO_H = 37-2;
+SERVO_H1 = 35.6;
+SERVO_H2 = 2.;
+SERVO_H3 = 2.1;
 
 CHAMFER_W = 1;
 CHAMFER_H = 2.5;
 
-SERVO_BRACKET_L = 6.5;
+SERVO_BRACKET_L = 6.9;
 SERVO_BRACKET_W = SERVO_W;
 SERVO_BRACKET_H = 2.5;
 SERVO_BRACKET_Z_POS = 27;
@@ -91,12 +93,12 @@ module MG995()
     translate([0, 0, 0]) {
         
         // main part
-        translate([20/2, 0, SERVO_H/2-SERVO_BRACKET_Z_POS]) {
+        translate([20/2, 0, SERVO_H1/2-SERVO_BRACKET_Z_POS]) {
             difference() {
-                cube([SERVO_L, SERVO_W, SERVO_H], center=true);
+                cube([SERVO_L, SERVO_W, SERVO_H1], center=true);
 
                 // chanfrein
-                translate([0, 0, -SERVO_H/2-0.01])
+                translate([0, 0, -SERVO_H1/2-0.01])
                 scale(1.001)
                 intersection() {
                     translate([0, 0, CHAMFER_H/2]) {
@@ -125,28 +127,28 @@ module MG995()
                 }
             }
         }
-        
+        translate([0, 0, SERVO_H1-SERVO_BRACKET_Z_POS]) {
+            cylinder(d=19, h=SERVO_H2, center=false);
+            translate([-21/2+13, -17/2, 0]) {
+                cube([21, 17, SERVO_H2], center=false);
+            }
+            translate([0, 0, SERVO_H2]) {
+                cylinder(d=13, h=2*SERVO_H3/3, center=false);
+                translate([0, 0, 2*SERVO_H3/3]) {
+                    cylinder(d=11, h=SERVO_H3/3, center=false);
+                    translate([0, 0, SERVO_H3/3]) {
+                        cylinder(d=5, h=3.9);
+                    }
+                }
+            }
+        }
+       
         translate([20/2+SERVO_L/2+SERVO_BRACKET_L/2, 0, SERVO_BRACKET_H/2]) {
             MG995_bracket();
         }
         translate([-20/2-SERVO_BRACKET_L/2, 0, SERVO_BRACKET_H/2]) {
             rotate([0, 0, 180]) {
                 MG995_bracket();
-            }
-        }
-        translate([0, 0, SERVO_H-SERVO_BRACKET_Z_POS]) {
-            cylinder(d=19, h=2, center=false);
-            translate([-21/2+15, -17/2, 0]) {
-                cube([21, 17, 2], center=false);
-            }
-            translate([0, 0, 2]) {
-                cylinder(d=13, h=1, center=false);
-                translate([0, 0, 1]) {
-                    cylinder(d=11, h=0.5, center=false);
-                    translate([0, 0, 0.5]) {
-                        cylinder(h=4.5, d=5);
-                    }
-                }
             }
         }
 
