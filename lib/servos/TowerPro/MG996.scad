@@ -222,8 +222,8 @@ module MG996_lid()
                 }
             }
             
-            // screw bearing hole
-            translate([MG996_L/2-MG996_SHAFT_POS_X, 0, -MG996_LID_BOTTOM_T-0.05]) {
+            // screw bearing screw hole
+            translate([-MG996_L/2+MG996_SHAFT_POS_X, 0, -MG996_LID_BOTTOM_T-0.05]) {
                 difference() {
                     cylinder(d1=3, d2=6, h=MG996_LID_BOTTOM_T+0.1, center=false);
                 }
@@ -240,6 +240,6 @@ module MG996_lid_vitamins()
 }
 
 
-color("gray") MG996();
-color("lightgray") MG996_lid();
-%MG996_lid_vitamins();
+//color("gray") MG996();
+//color("lightgray") MG996_lid();
+//%MG996_lid_vitamins();
