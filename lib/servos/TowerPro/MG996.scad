@@ -1,4 +1,4 @@
-// TowerPro MG-996/996R servo mockup
+// TowerPro MG996/996R servo mockup
 
 use <../../rounded_cube.scad>
 use <../../bearing.scad>
@@ -27,6 +27,28 @@ MG996_LID_BOTTOM_T = 2.0;
 
 $fs=0.5;
 $fa=2.5;
+
+    
+module MG996_spline(h)
+{
+    cylinder(d=5.5, h=h);
+    for (a=[0:360/25:360]) {
+        rotate([0, 0, a]) {
+            translate([5.5/2, 0, 0]) {
+                cylinder(d=0.65, h=h, $fn=4);
+            }
+        }
+    }
+}
+
+
+module MG996_spline_test()
+{
+    difference() {
+        cylinder(d=12, h=5);
+        MG996_spline(h=4);
+    }
+}
 
 
 module MG996_chamfer(w=1, h=1, l=10, center=true)
@@ -243,3 +265,4 @@ module MG996_lid_vitamins()
 //color("gray") MG996();
 //color("lightgray") MG996_lid();
 //%MG996_lid_vitamins();
+//mirror([0, 0, 1]) MG996_spline_test();
