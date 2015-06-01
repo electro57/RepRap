@@ -47,11 +47,18 @@ module coxa_vitamins()
 
 module coxa_femur_bracket_side_1()
 {
-    
-    translate([0, 0, MG996_L-MG996_SHAFT_POS_X+6/2]) {
-        cylinder(d=17, h=6, center=true);
-        translate([-(COXA_L+MG996_W/2)/2, 0, 0]) {
-            cube([COXA_L+MG996_W/2, 17, 6], center=true);
+    translate([0, 0, MG996_L-MG996_SHAFT_POS_X]) {
+        difference() {
+            translate([0, 0, MG996_BRACKET_L/2]) {
+                cylinder(d=20, h=MG996_BRACKET_L, center=true);
+                translate([-(COXA_L+MG996_W/2)/2, 0, 0]) {
+                    cube([COXA_L+MG996_W/2, 20, MG996_BRACKET_L], center=true);
+                }
+            }
+            
+            translate([-COXA_L-MG996_W/2, 20/2-1.5, 0]) {
+                cube([MG996_W, 2, MG996_BRACKET_L], center=false);
+            }
         }
     }
 }
@@ -59,34 +66,38 @@ module coxa_femur_bracket_side_1()
 
 module coxa_femur_bracket_side_2()
 {
-    translate([0, 0, -MG996_SHAFT_POS_X-0.5-6/2]) {
+    translate([0, 0, -MG996_SHAFT_POS_X-MG996_BRACKET_L/2]) {
         difference() {
             union() {
-                cylinder(d=17, h=6, center=true);
+                cylinder(d=20, h=MG996_BRACKET_L, center=true);
                 translate([-(COXA_L+MG996_W/2)/2, 0, 0]) {
-                    cube([COXA_L+MG996_W/2, 17, 6], center=true);
+                    cube([COXA_L+MG996_W/2, 20, MG996_BRACKET_L], center=true);
                 }
             }
-            translate([-(COXA_L-MG996_W/2-4+17/2)/2++17/2, 0, 6/2-1+2/2]) {
-                cube([COXA_L-MG996_W/2-4+17/2+0.1, 17+0.1, 2], center=true);
+            translate([0, 0, MG996_BRACKET_L/2-1.5]) {
+                cylinder(d=30, h=2, center=false);
+            }
+            
+            translate([-COXA_L-MG996_W/2, 20/2-1.5, -MG996_BRACKET_L/2]) {
+                cube([MG996_W, 2, MG996_BRACKET_L], center=false);
             }
         }
     }
 }
 
 
-module coxa_femur_bracket_link()
-{
-    translate([-COXA_L+MG996_W/2+4/2, 0, MG996_SHAFT_POS_X]) {
-        rcube([4, 14, MG996_L+2*4], [0, 0, 4], center=true);
-    }
-}
+//module coxa_femur_bracket_link()
+//{
+//    translate([-COXA_L+MG996_W/2+4/2, 0, MG996_SHAFT_POS_X]) {
+//        rcube([4, 14, MG996_L+2*4], [0, 0, 4], center=true);
+//    }
+//}
 
 
 module coxa_femur_bracket()
 {
     coxa_femur_bracket_side_1();
-    coxa_femur_bracket_link();
+//    coxa_femur_bracket_link();
     coxa_femur_bracket_side_2();
 }
 
@@ -220,15 +231,12 @@ module tibia_vitamins()
 }
 
 
-
-
-
 module leg(gamma=0, alpha=0, beta=0)
 {
+    %coxa_vitamins();
+    coxa_lid();
     rotate([0, 0, gamma]) {
         coxa();
-        coxa_lid();
-        %coxa_vitamins();
         
         color("orange") coxa_femur_bracket();
         
@@ -251,9 +259,8 @@ module leg(gamma=0, alpha=0, beta=0)
 }
 
 
-//leg(gamma=0, alpha=-15, beta=20);
+leg(gamma=15, alpha=-15, beta=20);
 
 //mirror([0, 0, 1]) femur_side_1();
 //rotate([0, 180, 0]) femur_side_2();
 //rotate([-90, 0, 0]) femur_link();
-
