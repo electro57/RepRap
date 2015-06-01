@@ -28,7 +28,7 @@ module coxa()
 }
 
 
-module coxa()
+module coxa_lid()
 {
     translate([0, 0, 18]) {
         MG996_lid();
@@ -48,10 +48,10 @@ module coxa_vitamins()
 module coxa_femur_bracket_side_1()
 {
     
-    translate([0, 0, MG996_L-MG996_SHAFT_POS_X+5/2]) {
-        cylinder(d=17, h=5, center=true);
+    translate([0, 0, MG996_L-MG996_SHAFT_POS_X+6/2]) {
+        cylinder(d=17, h=6, center=true);
         translate([-(COXA_L+MG996_W/2)/2, 0, 0]) {
-            cube([COXA_L+MG996_W/2, 17, 5], center=true);
+            cube([COXA_L+MG996_W/2, 17, 6], center=true);
         }
     }
 }
@@ -59,10 +59,17 @@ module coxa_femur_bracket_side_1()
 
 module coxa_femur_bracket_side_2()
 {
-    translate([0, 0, -MG996_SHAFT_POS_X-0.5-5/2]) {
-        cylinder(d=17, h=5, center=true);
-        translate([-(COXA_L+MG996_W/2)/2, 0, 0]) {
-            cube([COXA_L+MG996_W/2, 17, 5], center=true);
+    translate([0, 0, -MG996_SHAFT_POS_X-0.5-6/2]) {
+        difference() {
+            union() {
+                cylinder(d=17, h=6, center=true);
+                translate([-(COXA_L+MG996_W/2)/2, 0, 0]) {
+                    cube([COXA_L+MG996_W/2, 17, 6], center=true);
+                }
+            }
+            translate([-(COXA_L-MG996_W/2-4+17/2)/2++17/2, 0, 6/2-1+2/2]) {
+                cube([COXA_L-MG996_W/2-4+17/2+0.1, 17+0.1, 2], center=true);
+            }
         }
     }
 }
@@ -70,8 +77,8 @@ module coxa_femur_bracket_side_2()
 
 module coxa_femur_bracket_link()
 {
-    translate([-COXA_L+MG996_W/2+5/2, 0, MG996_SHAFT_POS_X]) {
-        cube([5, 17, MG996_L+2*5], center=true);
+    translate([-COXA_L+MG996_W/2+4/2, 0, MG996_SHAFT_POS_X]) {
+        rcube([4, 14, MG996_L+2*4], [0, 0, 4], center=true);
     }
 }
 
@@ -244,4 +251,9 @@ module leg(gamma=0, alpha=0, beta=0)
 }
 
 
-leg(gamma=0, alpha=-15, beta=20);
+//leg(gamma=0, alpha=-15, beta=20);
+
+//mirror([0, 0, 1]) femur_side_1();
+//rotate([0, 180, 0]) femur_side_2();
+//rotate([-90, 0, 0]) femur_link();
+
