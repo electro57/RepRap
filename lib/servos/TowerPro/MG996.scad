@@ -17,7 +17,7 @@ MG996_BRACKET_Z_POS = 27;
 MG996_CHAMFER_W = 1;
 MG996_CHAMFER_H = 2.5;
 
-MG996_SHAFT_POS_X = 20.0 / 2;
+MG996_SHAFT_POS_X = 10.75;
 
 MG996_SCREWS_X = 36.0;
 MG996_SCREWS_Y = 15.0;
@@ -168,7 +168,7 @@ module MG996()
                 translate([0, 0, 2*MG996_H3/3]) {
                     cylinder(d=11, h=MG996_H3/3, center=false);
                     translate([0, 0, MG996_H3/3]) {
-                        cylinder(d=5, h=3.9);
+                        cylinder(d=6, h=3.5);
                     }
                 }
             }
@@ -244,7 +244,7 @@ module MG996_lid()
                 }
             }
             
-            // screw bearing screw hole
+            // screw bearing hole
             translate([-MG996_L/2+MG996_SHAFT_POS_X, 0, -MG996_LID_BOTTOM_T-0.05]) {
                 difference() {
                     cylinder(d1=3, d2=6, h=MG996_LID_BOTTOM_T+0.1, center=false);
@@ -253,6 +253,66 @@ module MG996_lid()
         }
     }
 }
+
+
+
+
+module MG996_shaft_footprint()
+{
+    translate([MG996_SHAFT_POS_X, 0, -MG996_BRACKET_Z_POS]) {
+        difference() {
+            union() {
+                
+                // bottom
+                translate([0, 0, -MG996_LID_BOTTOM_T/2]) {
+                    rcube([MG996_L, MG996_W, MG996_LID_BOTTOM_T], [0, 0, 1], center=true);
+                }
+
+                // MG996_CHAMFER
+                intersection() {
+                    translate([0, 0, MG996_CHAMFER_H/2]) {
+                        rcube([MG996_L, MG996_W, MG996_CHAMFER_H], [0, 0, 1], center=true);
+                    }
+                    union() {
+                        translate([-MG996_L/2, 0, 0]) {
+                            MG996_chamfer(w=MG996_CHAMFER_W, h=MG996_CHAMFER_H, l=MG996_W, center=true);
+                        }
+                        translate([MG996_L/2, 0, 0]) {
+                            mirror([1, 0, 0]) {
+                                MG996_chamfer(w=MG996_CHAMFER_W, h=MG996_CHAMFER_H, l=MG996_W, center=true);
+                            }
+                        }
+                        translate([0, -MG996_W/2, 0]) {
+                            rotate([0, 0, 90]) {
+                                MG996_chamfer(w=MG996_CHAMFER_W, h=MG996_CHAMFER_H, l=MG996_L, center=true);
+                            }
+                        }
+                        translate([0, MG996_W/2, 0]) {
+                            rotate([0, 0, -90]) {
+                                MG996_chamfer(w=MG996_CHAMFER_W, h=MG996_CHAMFER_H, l=MG996_L, center=true);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // MG996_SCREWS holes
+            for (x=[-MG996_SCREWS_X/2, MG996_SCREWS_X/2]) {
+                for (y=[-MG996_SCREWS_Y/2, MG996_SCREWS_Y/2]) {
+                    translate([x, y, -MG996_LID_BOTTOM_T-0.05]) {
+                        cylinder(d=MG996_SCREWS_HEAD_D, h=MG996_LID_BOTTOM_T+MG996_CHAMFER_H+0.1, center=false);
+                    }
+                }
+            }
+            
+            // shaft footprint hole
+            translate([-MG996_L/2+MG996_SHAFT_POS_X, 0, -MG996_LID_BOTTOM_T-0.05]) {
+                cylinder(d=2, h=MG996_LID_BOTTOM_T+0.1, center=false);
+            }
+        }
+    }
+}
+
 
 module MG996_lid_vitamins()
 {
@@ -266,3 +326,4 @@ module MG996_lid_vitamins()
 //color("lightgray") MG996_lid();
 //%MG996_lid_vitamins();
 //mirror([0, 0, 1]) MG996_spline_test();
+//MG996_shaft_footprint();
