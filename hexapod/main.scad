@@ -5,15 +5,16 @@ EPSILON = 0.01;
 
 FILE = "main_long.dxf";
 
-COXA_L = 34;
+COXA_L = 35;
 
 FEMUR_SIDES_DIST = 38.75;
 
 TIBIA_ORIGIN_X = -20.6;
 TIBIA_ORIGIN_Z = 64.6;
 
-ANGLE_1 = 20;
-ANGLE_2 = -25;
+GAMMA = 10;
+ALPHA = -15;
+BETA = 20;
 
 $fs=0.5;
 $fa=2.5;
@@ -21,21 +22,34 @@ $fa=2.5;
 
 module coxa_side_1()
 {
-    translate([0, 0, MG996_L-MG996_SHAFT_POS_X+0.5]) {
+    translate([0, 0, MG996_L-MG996_SHAFT_POS_X]) {
         difference() {
             translate([0, 0, MG996_BRACKET_L/2]) {
                 cylinder(d=21, h=MG996_BRACKET_L, center=true);
-                translate([-(COXA_L+MG996_W/2)/2, 0, 0]) {
-                    cube([COXA_L+MG996_W/2, 21, MG996_BRACKET_L], center=true);
+                translate([-(COXA_L+MG996_W/2)/2, 0, -(MG996_BRACKET_L-5)/2]) {
+                    cube([COXA_L+MG996_W/2, 21, 5], center=true);
+                }
+                translate([-COXA_L-10.5/2, 0, 0]) {
+                    rotate([90, 0, 0]) {
+                        cylinder(d=MG996_BRACKET_L, h=21, center=true);
+                    }
+                }
+                translate([-COXA_L+10.5/2, 0, 0]) {
+                    rotate([90, 0, 0]) {
+                        cylinder(d=MG996_BRACKET_L, h=21, center=true);
+                    }
                 }
             }
             
             translate([-COXA_L-MG996_W/2, 21/2-1.5, 0]) {
-                cube([MG996_W, 2, MG996_BRACKET_L], center=false);
+                cube([MG996_W, 2, MG996_BRACKET_L+EPSILON], center=false);
             }
 
             cylinder(d=8.25, h=MG996_BRACKET_L);
-            *cylinder(d=13.5, h=1.5);
+//            cylinder(d=13.5, h=1.5);
+            translate([-COXA_L+MG996_W/2, -21/2, MG996_BRACKET_L-3.4+2]) {
+                *cube([COXA_L+21/2, 21, 2], center=false);
+            }
             translate([0, 0, MG996_BRACKET_L-3.4]) {
                 cylinder(d=21.5, h=3.4+EPSILON, center=false);
                 translate([0, 0, -0.5]) {
@@ -43,6 +57,7 @@ module coxa_side_1()
                 }
             }
             
+            // Bracket screws holes
             translate([-COXA_L-10.5/2, 21/2-2, MG996_BRACKET_L/2]) {
                 rotate([90, 0, 0]) {
                     cylinder(d=2, h=21/2+2, center=true);
@@ -53,6 +68,11 @@ module coxa_side_1()
                     cylinder(d=2, h=21/2+2, center=true);
                 }
             }
+            
+            // Link screw hole
+            translate([-COXA_L+MG996_W/2+5/2, -7, 0]) {
+                cylinder(d=2.5, h=5, center=false);
+            }
         }
     }
 }
@@ -60,36 +80,73 @@ module coxa_side_1()
 
 module coxa_side_2()
 {
-    translate([0, 0, -MG996_SHAFT_POS_X-MG996_BRACKET_L/2+0.5]) {
+    translate([0, 0, -MG996_SHAFT_POS_X]) {
         difference() {
             union() {
-                cylinder(d=21, h=MG996_BRACKET_L, center=true);
-                translate([-(COXA_L+MG996_W/2)/2, 0, 0]) {
-                    cube([COXA_L+MG996_W/2, 21, MG996_BRACKET_L], center=true);
+                translate([0, 0, -5/2]) {
+                    cylinder(d=21, h=5, center=true);
+                }
+                translate([-(COXA_L+MG996_W/2)/2, 0, -5/2]) {
+                    cube([COXA_L+MG996_W/2, 21, 5], center=true);
+                }
+                
+                // Brackets screws rounded shape
+                translate([0, 0, -MG996_BRACKET_L/2]) {
+                    translate([-COXA_L-10.5/2, 0, 0]) {
+                        rotate([90, 0, 0]) {
+                            cylinder(d=MG996_BRACKET_L, h=21, center=true);
+                        }
+                    }
+                    translate([-COXA_L+10.5/2, 0, 0]) {
+                        rotate([90, 0, 0]) {
+                            cylinder(d=MG996_BRACKET_L, h=21, center=true);
+                        }
+                    }
                 }
             }
             
-            translate([-COXA_L-MG996_W/2, 21/2-1.5, -MG996_BRACKET_L/2]) {
-                cube([MG996_W, 2, MG996_BRACKET_L], center=false);
+            // Bracket space
+            translate([-COXA_L-MG996_W/2, 21/2-2, -MG996_BRACKET_L]) {
+                cube([MG996_W, 2+EPSILON, MG996_BRACKET_L], center=false);
             }
             
-            translate([0, 0, -MG996_BRACKET_L/2]) {
-                cylinder(d=7.5, h=MG996_BRACKET_L);
-                translate([0, 0, MG996_BRACKET_L-4]) {
+            // Bearing space
+            translate([0, 0, -5-EPSILON]) {
+                cylinder(d=7.5, h=5+2*EPSILON);
+                translate([0, 0, 5-4]) {
                     cylinder(d=10.5, h=4+EPSILON);
                 }
             }
             
-            translate([-COXA_L-10.5/2, 0, 0]) {
-                rotate([-90, 0, 0]) {
-                    cylinder(d=2, h=21/2, center=false);
+            // Bracket screws holes
+            translate([0, 0, -MG996_BRACKET_L/2]) {
+                translate([-COXA_L-10.5/2, 0, 0]) {
+                    rotate([-90, 0, 0]) {
+                        cylinder(d=2, h=21/2, center=false);
+                    }
+                }
+                translate([-COXA_L+10.5/2, 0, 0]) {
+                    rotate([-90, 0, 0]) {
+                        cylinder(d=2, h=21/2, center=false);
+                    }
                 }
             }
-            translate([-COXA_L+10.5/2, 0, 0]) {
-                rotate([-90, 0, 0]) {
-                    cylinder(d=2, h=21/2, center=false);
-                }
+            
+            // Link screw hole
+            translate([-COXA_L+MG996_W/2+5/2, -7, -5]) {
+                cylinder(d=2.5, h=5, center=false);
             }
+        }
+    }
+}
+
+
+module coxa_link()
+{
+    translate([-COXA_L+MG996_W/2+5/2, -7, -MG996_SHAFT_POS_X+MG996_L/2]) {
+        difference() {
+            rcube([5, 7, MG996_L], [0, 0, 1.5], center=true);
+            cylinder(d=2, h=MG996_L, center=true);
         }
     }
 }
@@ -98,17 +155,16 @@ module coxa_side_2()
 module coxa()
 {
     coxa_side_1();
+    coxa_link();
     coxa_side_2();
 }
 
 
 module coxa_vitamins()
 {
-    translate([0, 0, 17.5]) {
+    translate([0, 0, 17]) {
         MG996();
-        translate([0, 0, -MG996_BRACKET_Z_POS-bearing_w(623)-0.75]) {
-            bearing(623);
-        }
+        MG996_bearing(623);
     }
 }
 
@@ -202,9 +258,7 @@ module femur_vitamins()
     translate([0, 8.5, 0]) {
         rotate([-90, -90, 0]) {
             MG996();
-            translate([0, 0, -MG996_BRACKET_Z_POS-bearing_w(623)-0.75]) {
-                bearing(623);
-            }
+            MG996_bearing(623);
         }
     }
 }
@@ -220,9 +274,7 @@ module tibia_vitamins()
     translate([0, 8.5, 0]) {
         rotate([-90, 90, 0]) {
             MG996();
-            translate([0, 0, -MG996_BRACKET_Z_POS-bearing_w(623)-0.75]) {
-                bearing(623);
-            }
+            MG996_bearing(623);
         }
     }
 }
@@ -250,7 +302,7 @@ module leg(gamma=0, alpha=0, beta=0)
 }
 
 
-leg(gamma=15, alpha=-15, beta=20);
+leg(gamma=GAMMA, alpha=ALPHA, beta=BETA);
 
 //coxa_side_1();
 //coxa_side_2();
