@@ -2,6 +2,20 @@ use <../lib/rounded_cube.scad>
 
 EPSILON = 0.01;
 
+PLATE_D = 95;
+PLATE_d = 25;
+PLATE_H = 1.25;
+
+MIRROR_POS_D = 35;
+
+MIRROR_W = 30;
+MIRROR_H = 15;
+MIRROR_T = 5;
+
+MIRROR_SUPPORT_D = 85;
+MIRROR_SUPPORT_d = 25;
+MIRROR_SUPPORT_H = 3;
+
 $fs=0.5;
 $fa=2.5;
 
@@ -87,35 +101,32 @@ module plate()
 module mirrors_support()
 {
     difference() {
-        union() {
-            difference() {
-                cylinder(d=60, h=10, center=false);
-                for (i=[0:6]) {
-                    rotate([0, 0, i*360/7]) {
-                        translate([25, -40/2, -(15-10)/2-EPSILON]) {
-                            rotate([0, (i-3)*0.5, 0])
-                            cube([20, 40, 15+2*EPSILON], center=false);
-                        }
-                    }
-                }
-            }
-        }
+        cylinder(d=MIRROR_SUPPORT_D, h=MIRROR_SUPPORT_H, center=false);
         translate([0, 0, -EPSILON]) {
-            cylinder(d=33.5, h=3.65, center=false);
-            cylinder(d=15.5, h=5, center=false);
-            cylinder(d=15, h=12, center=false);
+            cylinder(d=MIRROR_SUPPORT_d, h=MIRROR_SUPPORT_H+2*EPSILON, center=false);
         }
-        translate([0, 0, 3.65-EPSILON]) {
-            for (z=[0:120:300]) {
-                rotate([0, 0, z]) {
-                    translate([10.5, 0, 0]) {
-                        *cylinder(d=2.5, h=10, center= false);
-                    }
+        for (z=[0:360/7:360]) {
+            rotate([0, 0, z]) {
+                translate([MIRROR_POS_D-MIRROR_T/2, -MIRROR_W/2, -EPSILON+0.5]) {
+                    cube([MIRROR_T, MIRROR_W, MIRROR_SUPPORT_H+2*EPSILON], center=false);
                 }
             }
         }
-        translate([0, 0, 10]) {
-            *cylinder(d=50, h=15, center=false);
+    }
+    
+    // Mirror bottom support
+    for (z=[0:360/7:360]) {
+        rotate([0, 0, z]) {
+            translate([MIRROR_POS_D, 0, 0]) {
+                difference() {
+                    rotate([90, 0, 0]) {
+                        cylinder(d=2, h=MIRROR_W, center=true);
+                    }
+                    translate([0, 0, -3/2]) {
+                        cube([MIRROR_T, MIRROR_W, 3], center=true);
+                    }
+                }
+            }
         }
     }
 }
@@ -124,23 +135,24 @@ module mirrors_support()
 module mirrors()
 {
     for (z=[0:360/7:360]) {
-        rotate([0, 0, 360/7/2+z]) {
-            translate([35-5/2, -30/2, 0]) {
-                cube([5, 30, 15], center=false);
+        rotate([0, 0, z]) {
+            translate([MIRROR_POS_D-MIRROR_T/2, -MIRROR_W/2, 0]) {
+                cube([MIRROR_T, MIRROR_W, MIRROR_H], center=false);
             }
         }
     }
 }
 
 
-difference() {
-    union() {
-        *translate([0, 0, 11]) mirrors_support();
-        translate([0, 0, 15]) color("white") mirrors();
-        
-        color("gray") motor();
-//        color("moccasin")
-            %plate();
-    }
-    *translate([0, 0, -EPSILON]) cube([100, 100, 100], center=false);
+
+module display()
+{
+    translate([0, 0, 15]) mirrors_support();
+    translate([0, 0, 15+1]) %mirrors();
+    
+    color("gray") motor();
+    color("moccasin") plate();
 }
+
+
+display();
